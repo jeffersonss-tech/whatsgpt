@@ -14,7 +14,7 @@ driver = webdriver.Chrome(chrome_options=options)
 driver.get('https://web.whatsapp.com/')
 
 
-openai.api_key = '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'
+openai.api_key = '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'
 
 
 def enviar_mensagem( mensagem):
@@ -51,9 +51,7 @@ def enviar_mensagem( mensagem):
             print(e)
             sleep(1)
             
-    
-    
-    print(f"Mensagem enviada para ")
+    print(f"Mensagem enviada")
     
     
 def obtermensagem():
@@ -63,8 +61,9 @@ def obtermensagem():
             mensagem =  driver.find_element(By.CLASS_NAME, 'Hy9nV').text
             break
         except Exception as e:
-            print('erro na função obter mensagem')
-            sleep(2)
+            system('cls')
+            print('aguardando mensagem...')
+            sleep(5)
             pass
     
     
