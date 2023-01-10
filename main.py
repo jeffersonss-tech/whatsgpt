@@ -1,6 +1,7 @@
 from os import system
 from time import sleep
 
+import openai
 from selenium import webdriver
 from selenium.webdriver import ActionChains
 from selenium.webdriver.chrome.options import Options
@@ -13,16 +14,20 @@ driver = webdriver.Chrome(chrome_options=options)
 driver.get('https://web.whatsapp.com/')
 
 
+openai.api_key = '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'
+
+
 def enviar_mensagem( mensagem):
     '''chat = driver.find_element(By.XPATH , f"//span[@title='{numero}']")
     chat.click()'''
     while True:
         try:
+            print('enviando msg...')
             firstChat = driver.find_element(By.XPATH, f'//*[@id="pane-side"]/div/div/div/div/div/div/div/div[1]/div/div')
             firstChat.click()
             break
         except Exception as e:
-            print('error!', e)
+            print('erro na função enviar mensagem ')
             sleep(1)
             pass
             
@@ -34,8 +39,20 @@ def enviar_mensagem( mensagem):
         except Exception    as e:
             print('error!',e)
             sleep(1)
-    botao_enviar = driver.find_element(By.XPATH, '//*[@id="main"]/footer/div[1]/div/span[2]/div/div[2]/div[2]/button/span')
-    botao_enviar.click()
+            pass
+            
+    while True:
+        try:
+            
+            botao_enviar = driver.find_element(By.XPATH, '//*[@id="main"]/footer/div[1]/div/span[2]/div/div[2]/div[2]/button/span')
+            botao_enviar.click()
+            break
+        except Exception as e:
+            print(e)
+            sleep(1)
+            
+    
+    
     print(f"Mensagem enviada para ")
     
     
@@ -46,9 +63,25 @@ def obtermensagem():
             mensagem =  driver.find_element(By.CLASS_NAME, 'Hy9nV').text
             break
         except Exception as e:
-            print('error!', e)
-            sleep(1)
+            print('erro na função obter mensagem')
+            sleep(2)
             pass
+    
+    
+    #inteligencia artificial
+    print('obtendo resposta da ia') 
+    prompt = mensagem
+    completion = openai.Completion.create(
+            engine="text-davinci-002",
+            prompt=prompt,
+            max_tokens=1024,
+            n=1,
+            temperature=0.5,
+            )
+            
+    global response
+    response = completion.choices[0].text
+    print(response)
         
 def arquivarChat():
     while True:
@@ -65,12 +98,12 @@ def arquivarChat():
         except Exception as e:
             print('Error!', e)
             sleep(1)
-
+            pass
 
 
 while True:
         obtermensagem()
-        enviar_mensagem('"O sucesso não é a chave da felicidade. A felicidade é a chave do sucesso. Se você ama o que está fazendo, terá sucesso." - Albert Schweitzer')
+        enviar_mensagem(response)
         arquivarChat()
         #input(f'mensagem:{mensagem}')
         sleep(2)
