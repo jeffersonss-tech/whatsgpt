@@ -8,13 +8,16 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 
+#me ajude com o projeto
+
 options = Options()
-options.add_argument("user-data-dir=C:\\Users\\jeffe\\AppData\\Local\\Google\\Chrome\\User Data")
+path = "user-data-dir=C:\\Users\\jeffe\\AppData\\Local\\Google\\Chrome\\User Data" # mude o caminho conforme o usuario do seu PC, use tambem o chrome versão 8.
+options.add_argument(path)
 driver = webdriver.Chrome(chrome_options=options)
 driver.get('https://web.whatsapp.com/')
 
-
-openai.api_key = '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'
+openAiKey = 'coloque aqui a chave da api que voce obtem no site da openAi'
+openai.api_key = openAiKey
 
 
 def enviar_mensagem( mensagem):
